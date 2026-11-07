@@ -159,7 +159,6 @@ img { max-width: 100%; height: auto; }
   .brand-mark, .theme-toggle { width: 30px; height: 30px; }
   .hero { grid-template-columns: 1fr; padding-block: 42px 34px; gap: 25px; }
   .hero h1 { font-size: clamp(2.65rem, 11vw, 4rem); }
-  .hero h1 br { display: none; }
   .orbital-panel svg { max-height: 230px; }
   .notes-cards { grid-template-columns: 1fr; }
   .article-head { padding-top: 30px; }
