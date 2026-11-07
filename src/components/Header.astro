@@ -1,0 +1,47 @@
+---
+import { NAV, SITE } from "../consts"
+import { href } from "../lib/utils"
+
+const pathname = Astro.url.pathname
+---
+
+<header class="site-header">
+  <div class="wrap header-row">
+    <a class="brand" href={href()} aria-label={`${SITE.title} · 首页`}>
+      <span class="brand-mark" aria-hidden="true">LC</span>
+      <span>{SITE.title}</span>
+    </a>
+    <nav aria-label="主导航">
+      {NAV.map(({ label, path }) => (
+        <a href={href(path)} aria-current={pathname.startsWith(href(path)) ? "page" : undefined}>{label}</a>
+      ))}
+    </nav>
+    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="切换配色" hidden>
+      <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2v3m0 14v3M2 12h3m14 0h3M5 5l2 2m10 10 2 2m0-14-2 2M7 17l-2 2" />
+      </svg>
+    </button>
+  </div>
+</header>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>("#theme-toggle")
+  if (button) {
+    const root = document.documentElement
+    const preference = window.matchMedia("(prefers-color-scheme: dark)")
+    const isDark = () => root.dataset.theme ? root.dataset.theme === "dark" : preference.matches
+    const updateLabel = () => button.setAttribute("aria-label", isDark() ? "切换到浅色" : "切换到深色")
+    button.hidden = false
+    updateLabel()
+    preference.addEventListener("change", updateLabel)
+    button.addEventListener("click", () => {
+      const next = isDark() ? "light" : "dark"
+      root.dataset.theme = next
+      try {
+        localStorage.setItem("portfolio-theme", next)
+      } catch {}
+      updateLabel()
+    })
+  }
+</script>

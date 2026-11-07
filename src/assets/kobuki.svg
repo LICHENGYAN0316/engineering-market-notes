@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="360" viewBox="0 0 760 360" role="img" aria-labelledby="kobuki-title kobuki-desc">
+  <title id="kobuki-title">Kobuki event-driven controller sketch</title>
+  <desc id="kobuki-desc">The simplified controller branches from forward drive to obstacle or ramp handling in response to sensor events. Cliff safety has priority over ordinary drive transitions.</desc>
+  <defs>
+    <marker id="kobuki-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#275f55"/></marker>
+    <marker id="kobuki-priority" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#9a4628"/></marker>
+  </defs>
+  <rect x="1" y="1" width="758" height="358" rx="24" fill="#f2f6f3" stroke="#c8d8d0" stroke-width="2"/>
+  <g font-family="system-ui, sans-serif">
+    <text x="35" y="40" fill="#335c51" font-size="15" font-weight="700" letter-spacing="2">CONTROLLER SKETCH</text>
+    <text x="35" y="73" fill="#142e29" font-size="24" font-weight="700">Sensor events change how the robot moves</text>
+    <rect x="424" y="94" width="297" height="57" rx="12" fill="#f8e7dc" stroke="#a55132" stroke-width="1.5"/>
+    <text x="448" y="118" fill="#7a311a" font-size="19" font-weight="700">Cliff safety</text>
+    <text x="448" y="138" fill="#7a311a" font-size="14">Priority over ordinary drive transitions</text>
+    <rect x="40" y="187" width="182" height="69" rx="12" fill="#204d45"/>
+    <text x="131" y="227" text-anchor="middle" fill="#ffffff" font-size="20" font-weight="700">Forward drive</text>
+    <rect x="486" y="173" width="235" height="58" rx="12" fill="#ffffff" stroke="#628c7e" stroke-width="1.5"/>
+    <text x="505" y="208" fill="#142e29" font-size="19" font-weight="650">Obstacle handling</text>
+    <rect x="486" y="257" width="235" height="58" rx="12" fill="#ffffff" stroke="#628c7e" stroke-width="1.5"/>
+    <text x="505" y="292" fill="#142e29" font-size="19" font-weight="650">Ramp handling</text>
+    <path d="M131 185v-62h285" fill="none" stroke="#9a4628" stroke-width="2.5" stroke-dasharray="5 4" marker-end="url(#kobuki-priority)"/>
+    <text x="150" y="114" fill="#7a311a" font-size="16" font-weight="700">Cliff event</text>
+    <g fill="none" stroke="#275f55" stroke-width="2.5" marker-end="url(#kobuki-arrow)">
+      <path d="M223 221h44v-19h211"/>
+      <path d="M223 221h44v65h211"/>
+    </g>
+    <text x="282" y="192" fill="#254b43" font-size="16" font-weight="600">Bumper event</text>
+    <text x="282" y="275" fill="#254b43" font-size="16" font-weight="600">Slope event</text>
+  </g>
+</svg>

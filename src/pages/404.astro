@@ -1,0 +1,13 @@
+---
+import PageLayout from "../layouts/PageLayout.astro"
+import { href } from "../lib/utils"
+---
+
+<PageLayout title="页面未找到">
+  <section class="wrap collection-head">
+    <p class="eyebrow">404</p>
+    <h1>页面未找到</h1>
+    <p>可以从首页继续浏览项目和金融观察。</p>
+    <p><a class="button primary" href={href()}>返回首页</a></p>
+  </section>
+</PageLayout>

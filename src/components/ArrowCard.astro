@@ -1,0 +1,25 @@
+---
+import { entryHref, formatDate, type Entry } from "../lib/utils"
+
+interface Props {
+  entry: Entry
+}
+const { entry } = Astro.props
+const project = entry.collection === "projects" ? entry.data : undefined
+const post = entry.collection === "blog" ? entry.data : undefined
+const label = project?.category || post?.label || (project ? "工程项目" : "金融观察")
+---
+
+<a class="entry-card" href={entryHref(entry)}>
+  <div class="card-top">
+    <span>{label}</span>
+    <span class="card-arrow" aria-hidden="true">↗</span>
+  </div>
+  <h3>{entry.data.title}</h3>
+  <p>{entry.data.summary}</p>
+  {project?.highlight && <p class="card-highlight">{project.highlight}</p>}
+  <div class="card-footer">
+    <span>{project ? project.status || project.period : formatDate(entry.data.date)}</span>
+    <span>{entry.data.tags.slice(0, 2).join(" / ")}</span>
+  </div>
+</a>

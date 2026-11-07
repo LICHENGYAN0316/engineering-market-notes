@@ -1,0 +1,29 @@
+---
+import { href, formatDate, type Entry } from "../lib/utils"
+
+interface Props {
+  entry: Entry
+}
+const { entry } = Astro.props
+const project = entry.collection === "projects" ? entry.data : undefined
+const post = entry.collection === "blog" ? entry.data : undefined
+---
+
+<header class="reading article-head">
+  <a class="text-link back-link" href={href(`${entry.collection}/`)}>← 返回{project ? "工程项目" : "金融观察"}</a>
+  <p class="eyebrow">{project?.category || post?.label || (project ? "工程项目" : "金融观察")}</p>
+  <h1>{entry.data.title}</h1>
+  <p class="article-summary">{entry.data.summary}</p>
+  <div class="article-meta">
+    {project?.period && <span>{project.period}</span>}
+    {project?.status && <span>{project.status}</span>}
+    {!project && <time datetime={entry.data.date.toISOString()}>{formatDate(entry.data.date)}</time>}
+  </div>
+  <ul class="tags" aria-label="主题标签">
+    {entry.data.tags.map(tag => <li>{tag}</li>)}
+  </ul>
+  {(project?.demoUrl || project?.repoUrl) && <div class="article-actions">
+    {project.demoUrl && <a class="button secondary" href={project.demoUrl}>在线演示 ↗</a>}
+    {project.repoUrl && <a class="button secondary" href={project.repoUrl}>项目源码 ↗</a>}
+  </div>}
+</header>

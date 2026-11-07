@@ -1,0 +1,57 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro"
+import TopLayout from "../../layouts/TopLayout.astro"
+import BottomLayout from "../../layouts/BottomLayout.astro"
+import ArrowCard from "../../components/ArrowCard.astro"
+import { publishedEntries } from "../../lib/utils"
+
+const projects = await publishedEntries("projects")
+const categories = [...new Set(projects.map(entry => entry.data.category).filter(Boolean))]
+const description = "电力系统、嵌入式控制、优化与数据建模。每个案例记录问题、个人分工、验证结果和适用范围。"
+---
+
+<PageLayout title="工程项目" description={description}>
+  <TopLayout label="01 / ENGINEERING" title="工程项目" description={description} />
+  <BottomLayout>
+    <div class="project-controls" id="project-controls" hidden>
+      <label>搜索项目 <input id="project-query" type="search" placeholder="关键词或工具" /></label>
+      <label>分类
+        <select id="project-category">
+          <option value="">全部分类</option>
+          {categories.map(category => <option value={category}>{category}</option>)}
+        </select>
+      </label>
+    </div>
+    <p class="collection-count" id="project-count" role="status">{projects.length} 个项目</p>
+    <div class="cards project-grid">
+      {projects.map(entry => (
+        <div class="card-wrapper" data-project data-category={entry.data.category} data-keywords={entry.data.tags.join(" ")}>
+          <ArrowCard entry={entry} />
+        </div>
+      ))}
+    </div>
+  </BottomLayout>
+</PageLayout>
+
+<script>
+  const query = document.querySelector<HTMLInputElement>("#project-query")!
+  const category = document.querySelector<HTMLSelectElement>("#project-category")!
+  const count = document.querySelector("#project-count")!
+  const items = [...document.querySelectorAll<HTMLElement>("[data-project]")].map(element => ({
+    element,
+    category: element.dataset.category,
+    text: `${element.textContent} ${element.dataset.keywords}`.toLowerCase(),
+  }))
+  function filter() {
+    const term = query.value.trim().toLowerCase()
+    let visible = 0
+    for (const item of items) {
+      item.element.hidden = !(item.text.includes(term) && (!category.value || item.category === category.value))
+      if (!item.element.hidden) visible++
+    }
+    count.textContent = visible ? `${visible} 个项目` : "没有匹配的项目。"
+  }
+  query.addEventListener("input", filter)
+  category.addEventListener("change", filter)
+  document.querySelector<HTMLElement>("#project-controls")!.hidden = false
+</script>

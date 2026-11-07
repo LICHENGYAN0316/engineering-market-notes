@@ -1,0 +1,19 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro"
+import TopLayout from "../../layouts/TopLayout.astro"
+import BottomLayout from "../../layouts/BottomLayout.astro"
+import ArrowCard from "../../components/ArrowCard.astro"
+import { publishedEntries } from "../../lib/utils"
+
+const posts = await publishedEntries("blog")
+const description = "围绕具体问题记录对能源、行业与金融市场的观察，区分公开资料、假设算例与判断。"
+---
+
+<PageLayout title="金融观察" description={description}>
+  <TopLayout label="02 / MARKET NOTES" title="金融观察" description={description} />
+  <BottomLayout>
+    <div class="notes-cards">
+      {posts.map(entry => <ArrowCard entry={entry} />)}
+    </div>
+  </BottomLayout>
+</PageLayout>

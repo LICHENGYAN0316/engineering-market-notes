@@ -1,0 +1,40 @@
+---
+import { render } from "astro:content"
+import type { ImageMetadata } from "astro"
+import { entryHref, publishedEntries, type Entry } from "../lib/utils"
+
+interface Props {
+  entry: Entry
+}
+const { entry } = Astro.props
+const { Content } = await render(entry)
+const entries = await publishedEntries(entry.collection)
+const index = entries.findIndex(item => item.id === entry.id)
+const before = entries[index - 1]
+const after = entries[index + 1]
+
+const figures: Record<string, { file: string; alt: string }> = {
+  minesteiner: { file: "minesteiner", alt: "固定端点和可移动分支点组成的连接网络示意" },
+  "kobuki-control": { file: "kobuki", alt: "障碍回避、坡道控制与高优先级悬崖恢复示意" },
+  "vic1-price-forecast": { file: "vic1", alt: "使用 168 小时历史输入预测未来 24 小时的时间窗口示意" },
+}
+const images = import.meta.glob<{ default: ImageMetadata }>("../assets/*.svg", { eager: true })
+const figure = figures[entry.id]
+const image = figure ? images[`../assets/${figure.file}.svg`]?.default : undefined
+---
+
+<div class="reading article-body">
+  {figure && image && (
+    <figure class="article-figure">
+      <img src={image.src} width={image.width} height={image.height} alt={figure.alt} />
+      <figcaption>{figure.alt}</figcaption>
+    </figure>
+  )}
+  <article class="prose">
+    <Content />
+  </article>
+  {(before || after) && <nav class="adjacent" aria-label="相邻条目">
+    {before && <a class="entry-card" href={entryHref(before)}><small>← 较新</small><strong>{before.data.title}</strong></a>}
+    {after && <a class="entry-card" href={entryHref(after)}><small>较早 →</small><strong>{after.data.title}</strong></a>}
+  </nav>}
+</div>

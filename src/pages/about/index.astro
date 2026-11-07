@@ -1,0 +1,20 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro"
+import { SITE } from "../../consts"
+import { href } from "../../lib/utils"
+---
+
+<PageLayout title="关于">
+  <header class="reading article-head">
+    <p class="eyebrow">ABOUT / CHENGYAN LI</p>
+    <h1>关于我</h1>
+    <p class="article-summary">李承言 · 电气工程</p>
+  </header>
+  <div class="reading article-body">
+    <article class="prose">
+      <p>我在墨尔本大学攻读电气工程硕士，预计于 2026 年 12 月完成学业。本科就读于中南大学电气工程及其自动化专业，也曾在九州大学参加电子电气工学非学位研修。</p>
+      <p>我的工程项目主要涉及电力系统、电力市场数据、嵌入式控制与优化。这个站点汇集项目案例和市场观察，方便回看建模假设、验证过程和结果。</p>
+      <p><a href={href("projects/")}>浏览项目</a> · <a href={SITE.github}>GitHub</a></p>
+    </article>
+  </div>
+</PageLayout>

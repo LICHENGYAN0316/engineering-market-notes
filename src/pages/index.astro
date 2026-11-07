@@ -1,0 +1,52 @@
+---
+import PageLayout from "../layouts/PageLayout.astro"
+import ArrowCard from "../components/ArrowCard.astro"
+import OrbitalPanel from "../components/OrbitalPanel.astro"
+import { href, publishedEntries } from "../lib/utils"
+
+const projects = await publishedEntries("projects")
+const featured = ["minesteiner", "kobuki-control", "vic1-price-forecast"]
+  .flatMap(id => projects.filter(project => project.id === id))
+const notes = (await publishedEntries("blog")).slice(0, 2)
+---
+
+<PageLayout>
+  <section class="hero wrap">
+    <div class="hero-copy">
+      <p class="eyebrow"><span class="dot"></span> CHENGYAN LI / PERSONAL SITE</p>
+      <h1>工程项目与<br /><span>金融观察</span></h1>
+      <p class="hero-lede">我是李承言，墨尔本大学电气工程硕士在读。这里记录我做过的工程项目，以及对电力、能源与金融市场的观察。</p>
+      <div class="hero-actions">
+        <a class="button primary" href={href("projects/")}>浏览工程项目 <span aria-hidden="true">↗</span></a>
+        <a class="button secondary" href={href("blog/")}>阅读金融观察</a>
+      </div>
+    </div>
+    <OrbitalPanel />
+  </section>
+
+  <section class="section wrap" aria-labelledby="featured">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">01 / ENGINEERING</p>
+        <h2 id="featured">代表项目</h2>
+      </div>
+      <a class="text-link" href={href("projects/")}>查看全部 {projects.length} 个项目 <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="cards">
+      {featured.map(entry => <ArrowCard entry={entry} />)}
+    </div>
+  </section>
+
+  <section class="section section-last wrap" aria-labelledby="notes">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">02 / MARKET NOTES</p>
+        <h2 id="notes">金融观察</h2>
+      </div>
+      <a class="text-link" href={href("blog/")}>全部文章 <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="notes-cards">
+      {notes.map(entry => <ArrowCard entry={entry} />)}
+    </div>
+  </section>
+</PageLayout>
