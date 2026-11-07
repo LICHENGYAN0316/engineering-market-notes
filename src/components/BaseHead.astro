@@ -5,9 +5,10 @@ import { href } from "../lib/utils"
 interface Props {
   title: string
   description: string
+  noindex?: boolean
 }
 
-const { title, description } = Astro.props
+const { title, description, noindex } = Astro.props
 const canonical = new URL(Astro.url.pathname, Astro.site)
 ---
 
@@ -17,13 +18,13 @@ const canonical = new URL(Astro.url.pathname, Astro.site)
 <meta name="theme-color" content="#f6f8f7" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#111819" media="(prefers-color-scheme: dark)" />
 <link rel="icon" type="image/svg+xml" href={href("favicon.svg")} />
-<link rel="canonical" href={canonical} />
+{noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
 <link rel="alternate" type="application/rss+xml" title={`${SITE.title} · ${SITE.subtitle}`} href={href("rss.xml")} />
 <title>{title}</title>
 <meta property="og:type" content="website" />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:url" content={canonical} />
+{!noindex && <meta property="og:url" content={canonical} />}
 <meta property="og:locale" content="zh_CN" />
 
 <script is:inline>
